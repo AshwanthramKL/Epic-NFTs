@@ -21,7 +21,8 @@ contract MyEpicNFT is ERC721URIStorage {
 
         _safeMint(msg.sender, newItemId);   // Mint NFT
 
-        _setTokenURI(newItemId, "data");    // Set NFT id and metadata
+        _setTokenURI(newItemId, "https://jsonkeeper.com/b/GP6J");    // Set NFT id and metadata-> JSON Keeper
+        console.log("NFT with id %s is minted by %s", newItemId, msg.sender); // For our reference
 
         _tokenId.increment();   // Increase count of NFT
 
