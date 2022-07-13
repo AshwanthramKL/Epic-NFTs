@@ -16,7 +16,7 @@ contract MyEpicNFT is ERC721URIStorage {
     }
 
     // Mint an NFT
-    function makeanEpicNFT() public {           
+    function makeAnEpicNFT() public {           
         uint256 newItemId = _tokenId.current(); // temporary variable to get current NFT id
 
         _safeMint(msg.sender, newItemId);   // Mint NFT
