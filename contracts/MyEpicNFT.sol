@@ -7,6 +7,8 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
 
+import { Base64 } from "./libraries/Base64.sol";
+
 contract MyEpicNFT is ERC721URIStorage {
 
     using Counters for Counters.Counter;
@@ -21,7 +23,7 @@ contract MyEpicNFT is ERC721URIStorage {
 
 
     constructor() ERC721 ("SquareNFT","SQR") { // NFT name and NFT symbol
-        console.log("This is my Contract. Whoa!");
+        console.log("NFT Generating\n");
     }
 
     // Return a random index number 
@@ -74,17 +76,31 @@ contract MyEpicNFT is ERC721URIStorage {
         string memory firstWord = pickRandomFirstWord(newItemId);
         string memory secondWord = pickRandomSecondWord(newItemId);
         string memory thirdWord = pickRandomThirdWord(newItemId);
+        string memory finalWord = string(abi.encodePacked(firstWord, secondWord, thirdWord));
 
+        string memory finalSvg = string(abi.encodePacked(baseSvg, finalWord, "</text></svg>")); // concatinating all the components of the Svg
+        
+        // Get all the JSON metadata in place and base64 encode it.
+        string memory json = Base64.encode(
+            bytes(
+                string(
+                    abi.encodePacked(
+                        '{ "name": "', finalWord,'" ', // title = finalWord
+                        '"description": "A cool collection of black sqaure with kickass character names" ',
+                        '"image": "data:image/svg+xml;base64,',Base64.encode(bytes(finalSvg)),'" }' // adding the encoded svg as image
+                    )
+                )
+            )
+        );
 
-        string memory finalSvg = string(abi.encodePacked(baseSvg, firstWord, secondWord, thirdWord, "</text></svg>")); // concatinating all the components of the Svg
+        string memory finalTokenURI = string(abi.encodePacked("data:application/json;base64,", json));
 
         console.log("\n----------------------------------");
-        console.log(finalSvg);
-        console.log("----------------------------------\n");
+
 
         _safeMint(msg.sender, newItemId);   // Mint NFT
 
-        _setTokenURI(newItemId, "placeholder data"); // Will be set in next stage 
+        _setTokenURI(newItemId, finalTokenURI); // Will be set in next stage 
         console.log("NFT with id %s is minted by %s", newItemId, msg.sender); // For our reference
 
         _tokenId.increment();   // Increase count of NFT
