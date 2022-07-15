@@ -85,8 +85,8 @@ contract MyEpicNFT is ERC721URIStorage {
             bytes(
                 string(
                     abi.encodePacked(
-                        '{ "name": "', finalWord,'" ', // title = finalWord
-                        '"description": "A cool collection of black sqaure with kickass character names" ',
+                        '{ "name": "', finalWord,'",', // title = finalWord
+                        '"description": "A cool collection of black sqaure with kickass character names", ',
                         '"image": "data:image/svg+xml;base64,',Base64.encode(bytes(finalSvg)),'" }' // adding the encoded svg as image
                     )
                 )
@@ -94,7 +94,7 @@ contract MyEpicNFT is ERC721URIStorage {
         );
 
         string memory finalTokenURI = string(abi.encodePacked("data:application/json;base64,", json));
-
+        console.log(finalTokenURI);     
         console.log("\n----------------------------------");
 
 
