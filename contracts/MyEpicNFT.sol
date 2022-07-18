@@ -20,7 +20,8 @@ contract MyEpicNFT is ERC721URIStorage {
     string[] firstWords = ["Astonishing", "Brilliant", "Striking", "Elegant", "Exquisite", "Flawless", "Dynamite", "Marvelous", "Glorious", "Polished", "Unreal", "Graceful", "Hip", "Sharp", "Bewitching"];
     string[] secondWords = ["Bumblebee", "Clandestine", "Crestfallen", "Diabolical", "Flippant", "Incognito", "Kaleidoscope", "Mercury", "Onomatopoeia", "Stoic", "Villain", "Wizard", "Entrepreneur", "Goku", "Fireball"];
     string[] thirdWords = ["bannister", "alkaliser", "bartender", "bootmaker", "caretaker", "carpooler", "complexer", "killer", "vanquisher", "disguiser", "enchanter", "foxhunter", "fighter", "lifesaver", "shotmaker"];
-
+    
+    event NewEpicNFTMinted(address sender, uint256 tokenId);
 
     constructor() ERC721 ("SquareNFT","SQR") { // NFT name and NFT symbol
         console.log("NFT Generating\n");
@@ -77,9 +78,10 @@ contract MyEpicNFT is ERC721URIStorage {
         string memory secondWord = pickRandomSecondWord(newItemId);
         string memory thirdWord = pickRandomThirdWord(newItemId);
         string memory finalWord = string(abi.encodePacked(firstWord, secondWord, thirdWord));
-
+        
         string memory finalSvg = string(abi.encodePacked(baseSvg, finalWord, "</text></svg>")); // concatinating all the components of the Svg
         
+
         // Get all the JSON metadata in place and base64 encode it.
         string memory json = Base64.encode(
             bytes(
@@ -94,16 +96,16 @@ contract MyEpicNFT is ERC721URIStorage {
         );
 
         string memory finalTokenURI = string(abi.encodePacked("data:application/json;base64,", json));
-    
+        
         console.log("\n----------------------------------");
 
-
+       
         _safeMint(msg.sender, newItemId);   // Mint NFT
 
         _setTokenURI(newItemId, finalTokenURI); // Will be set in next stage 
         console.log("NFT with id %s is minted by %s", newItemId, msg.sender); // For our reference
 
         _tokenId.increment();   // Increase count of NFT
-
+        emit NewEpicNFTMinted(msg.sender, newItemId);
     }
 }
