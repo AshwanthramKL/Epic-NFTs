@@ -1,15 +1,7 @@
-# Basic Sample Hardhat Project
+# Epic-NFTs WebApp
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+A Web3 project following [Bulidspace](https://zip.sc/3MFBP) to mint NFTs on the rinkeby testnet.
 
-Try running some of the following tasks:
+Website link : https://nft-starter-project.ashwanthramk.repl.co/  
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+![Website Preview](./Screenshots/Website_preview.png)
